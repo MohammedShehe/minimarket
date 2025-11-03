@@ -14,9 +14,40 @@ $response = [];
 if (isset($_FILES['image']) && isset($_POST['link'])) {
     $link = trim($_POST['link']);
 
+    // Check if file was uploaded without errors
+    if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+        $errorMessages = [
+            UPLOAD_ERR_INI_SIZE => "File exceeds upload_max_filesize directive in php.ini",
+            UPLOAD_ERR_FORM_SIZE => "File exceeds MAX_FILE_SIZE directive in HTML form",
+            UPLOAD_ERR_PARTIAL => "File was only partially uploaded",
+            UPLOAD_ERR_NO_FILE => "No file was uploaded",
+            UPLOAD_ERR_NO_TMP_DIR => "Missing temporary folder",
+            UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk",
+            UPLOAD_ERR_EXTENSION => "A PHP extension stopped the file upload"
+        ];
+        
+        $errorMessage = $errorMessages[$_FILES['image']['error']] ?? "Unknown upload error";
+        $response = ["status" => "error", "message" => "Upload error: " . $errorMessage];
+        echo json_encode($response);
+        exit;
+    }
+
+    // Validate file exists and has content
+    if (!file_exists($_FILES['image']['tmp_name']) || !is_uploaded_file($_FILES['image']['tmp_name'])) {
+        $response = ["status" => "error", "message" => "Invalid file upload"];
+        echo json_encode($response);
+        exit;
+    }
+
     // File upload setup
     $targetDir = "../uploads/ads/";
-    if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
+    if (!is_dir($targetDir)) {
+        if (!mkdir($targetDir, 0777, true)) {
+            $response = ["status" => "error", "message" => "Failed to create upload directory"];
+            echo json_encode($response);
+            exit;
+        }
+    }
 
     // Validate file type
     $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
@@ -28,7 +59,9 @@ if (isset($_FILES['image']) && isset($_POST['link'])) {
         exit;
     }
 
-    $fileName = time() . "_" . basename($_FILES['image']['name']);
+    // Generate unique filename
+    $fileExtension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+    $fileName = time() . "_" . uniqid() . "." . $fileExtension;
     $targetFile = $targetDir . $fileName;
 
     if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
@@ -40,11 +73,13 @@ if (isset($_FILES['image']) && isset($_POST['link'])) {
         if ($stmt->execute()) {
             $response = ["status" => "success", "message" => "Ad posted successfully"];
         } else {
+            // Delete the uploaded file if database insert fails
+            unlink($targetFile);
             $response = ["status" => "error", "message" => "Database error: " . $stmt->error];
         }
         $stmt->close();
     } else {
-        $response = ["status" => "error", "message" => "Failed to upload image"];
+        $response = ["status" => "error", "message" => "Failed to move uploaded file"];
     }
 } else {
     $response = ["status" => "error", "message" => "Missing image or link"];
