@@ -1,0 +1,3214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lawgate Mini Market - Your Trusted Local Marketplace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2c5530;
+      --primary-light: #4a7856;
+      --secondary: #8b7355;
+      --accent: #d4af37;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-hover: 0 8px 24px rgba(0,0,0,0.15);
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #e9ecef;
+      --border-color: #343a40;
+      --input-bg: #2d2d2d;
+      --input-border: #444;
+      --input-color: #f8f9fa;
+      --light-gray: #2a2a2a;
+    }
+
+    [data-theme="light"] {
+      --bg-color: var(--light);
+      --card-bg: var(--white);
+      --text-color: var(--dark);
+      --border-color: #dee2e6;
+      --input-bg: var(--white);
+      --input-border: #ced4da;
+      --input-color: var(--dark);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: var(--transition);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* Header & Navigation */
+    .topbar {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      padding: 12px 0;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      height: 50px;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: var(--transition);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .brand-text {
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.4rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .search-container {
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .search-input {
+      padding: 12px 50px 12px 45px;
+      border-radius: 50px;
+      border: 2px solid transparent;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+      font-size: 1rem;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
+      background: var(--white);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      z-index: 2;
+    }
+
+    .search-btn {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      background: var(--primary);
+      border: none;
+      color: var(--white);
+      transition: var(--transition);
+    }
+
+    .search-btn:hover {
+      background: var(--primary-light);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .theme-toggle, .cart-icon, .profile-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.2);
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .theme-toggle:hover, .cart-icon:hover, .profile-badge:hover {
+      background: rgba(255,255,255,0.25);
+      transform: scale(1.05);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--accent);
+      color: var(--dark);
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .login-btn {
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    }
+
+    .login-btn:hover {
+      background: #e6c34d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+    }
+
+    /* User Profile Area */
+    .user-profile-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-profile-area .profile-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.2);
+      transition: var(--transition);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .user-profile-area .logout-btn {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .user-profile-area .logout-btn:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* Main Content */
+    .main-container {
+      padding: 2rem 0;
+    }
+
+    /* Ads Carousel */
+    .ads-container {
+      margin-bottom: 2rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .ads-carousel img {
+      height: 200px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+      width: 50px;
+      height: 50px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Announcements */
+    .announcement {
+      background: linear-gradient(135deg, var(--secondary), #a0866a);
+      color: var(--white);
+      padding: 15px;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .announcement marquee {
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    /* Products Grid - Enhanced */
+    .products-section {
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 0;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary-light);
+    }
+
+    .product-image {
+      position: relative;
+      overflow: hidden;
+      height: 220px;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.05);
+    }
+
+    .offer-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--accent);
+      color: var(--dark);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .quick-view-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,0.9);
+      color: var(--primary);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+      z-index: 2;
+    }
+
+    .product-card:hover .quick-view-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .quick-view-btn:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .product-info {
+      padding: 1.25rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 48px;
+    }
+
+    .product-brand {
+      color: var(--secondary);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .product-price {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .current-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .original-price {
+      font-size: 0.9rem;
+      color: var(--gray);
+      text-decoration: line-through;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .stars {
+      color: var(--warning);
+    }
+
+    .rating-count {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    .product-actions {
+      margin-top: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-add-cart, .btn-buy-now {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .btn-add-cart {
+      background: var(--light-gray);
+      color: var(--text-color);
+    }
+
+    .btn-add-cart:hover {
+      background: var(--primary-light);
+      color: var(--white);
+    }
+
+    .btn-buy-now {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-buy-now:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    /* Enhanced Product Card with Quick Actions */
+    .product-card-enhanced {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 1;
+    }
+
+    .product-card:hover .product-overlay {
+      opacity: 1;
+    }
+
+    .overlay-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .overlay-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--white);
+      color: var(--primary);
+      border: none;
+      transition: var(--transition);
+    }
+
+    .overlay-btn:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: scale(1.1);
+    }
+
+    /* Sidebar */
+    .sidebar-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-title {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cart-summary {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .account-links {
+      list-style: none;
+      padding: 0;
+    }
+
+    .account-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .account-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .account-links a:hover {
+      background: var(--light-gray);
+      color: var(--primary);
+      transform: translateX(5px);
+    }
+
+    /* Contact Card */
+    .contact-card {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .social-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 1rem 0;
+    }
+
+    .social-link {
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateX(5px);
+      color: var(--white);
+    }
+
+    .message-box textarea {
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 8px;
+      resize: none;
+    }
+
+    .btn-send {
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .btn-send:hover {
+      background: #e6c34d;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: var(--white);
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      text-align: center;
+    }
+
+    .footer-logo {
+      height: 60px;
+      margin-bottom: 1rem;
+      border-radius: var(--radius);
+    }
+
+    /* Admin Login Button */
+    .admin-login {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1000;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .admin-login:hover {
+      background: #e6c34d;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .brand-text {
+        font-size: 1.2rem;
+      }
+      
+      .search-container {
+        max-width: 400px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .topbar .container {
+        flex-wrap: wrap;
+      }
+      
+      .logo-container {
+        margin-bottom: 10px;
+      }
+      
+      .search-container {
+        order: 3;
+        max-width: 100%;
+        margin-top: 10px;
+      }
+      
+      .nav-icons {
+        margin-left: auto;
+      }
+      
+      .product-image {
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        padding: 10px 0;
+      }
+      
+      .logo {
+        height: 40px;
+      }
+      
+      .brand-text {
+        font-size: 1.1rem;
+      }
+      
+      .search-input {
+        padding: 10px 45px 10px 40px;
+      }
+      
+      .theme-toggle, .cart-icon, .profile-badge {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .login-btn {
+        padding: 8px 18px;
+        font-size: 0.9rem;
+      }
+      
+      .ads-carousel img {
+        height: 150px;
+      }
+      
+      .product-image {
+        height: 160px;
+      }
+      
+      .product-info {
+        padding: 1rem;
+      }
+      
+      .sidebar-card {
+        padding: 1.25rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .topbar .container {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .logo-container {
+        justify-content: center;
+        width: 100%;
+      }
+      
+      .nav-icons {
+        justify-content: center;
+        width: 100%;
+      }
+      
+      .search-container {
+        margin-top: 0;
+      }
+      
+      .brand-text {
+        font-size: 1rem;
+      }
+      
+      .product-card {
+        margin-bottom: 1rem;
+      }
+      
+      .product-actions {
+        flex-direction: column;
+      }
+      
+      .admin-login {
+        right: 10px;
+        bottom: 10px;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+      }
+
+      .user-profile-area {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .user-profile-area .logout-btn {
+        width: 100%;
+      }
+    }
+
+    /* Utility Classes */
+    .text-accent {
+      color: var(--accent) !important;
+    }
+
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+    }
+
+    .border-radius {
+      border-radius: var(--radius) !important;
+    }
+
+    .shadow-custom {
+      box-shadow: var(--shadow) !important;
+    }
+
+    .transition {
+      transition: var(--transition) !important;
+    }
+
+    /* Loading Animation */
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: var(--white);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Empty States */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--gray);
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: var(--light-gray);
+    }
+
+    .empty-state h4 {
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      z-index: 1060;
+    }
+
+    .toast {
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-hover);
+      border: none;
+    }
+
+    /* Modal Enhancements */
+    .modal-content {
+      border-radius: var(--radius);
+      border: none;
+      box-shadow: var(--shadow-hover);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: var(--white);
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .btn-close-white {
+      filter: invert(1);
+    }
+
+    /* Offcanvas Enhancements */
+    .offcanvas {
+      border-radius: 0;
+    }
+
+    .offcanvas-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: var(--white);
+    }
+
+    /* Animation Classes */
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 0.5s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* Confetti Animation */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      top: -10px;
+      border-radius: 50%;
+      animation: confetti-fall 3s linear forwards;
+      z-index: 9999;
+    }
+
+    @keyframes confetti-fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Order Success Animation */
+    .order-success-animation {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .truck-animation {
+      font-size: 4rem;
+      color: var(--success);
+      margin-bottom: 1rem;
+      animation: truck-bounce 2s infinite;
+    }
+
+    @keyframes truck-bounce {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(10px); }
+    }
+
+    .delivery-otp {
+      background: var(--light-gray);
+      padding: 10px;
+      border-radius: var(--radius);
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+      <div class="logo-container">
+        <img src="https://via.placeholder.com/160x46?text=Lawgate+Mini+Market" alt="Logo" class="logo">
+        <span class="brand-text">Lawgate Mini Market</span>
+      </div>
+      
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input id="searchBox" type="text" class="form-control search-input" placeholder="Search products, brands...">
+        <button class="btn search-btn" id="searchBtn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      
+      <div class="nav-icons">
+        <button class="theme-toggle" id="themeToggle">
+          <i class="fas fa-moon"></i>
+        </button>
+        <div class="cart-icon" id="cartIcon">
+          <i class="fas fa-shopping-cart"></i>
+          <div class="cart-badge d-none" id="cartBadge">0</div>
+        </div>
+        <button id="loginBtn" class="btn login-btn" data-bs-toggle="modal" data-bs-target="#authModal">Login</button>
+        <div id="profileArea" class="user-profile-area d-none">
+          <div id="profileBadge" class="profile-badge" title="Profile"></div>
+          <button id="logoutBtn" class="btn logout-btn">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container main-container">
+  <div class="row">
+    <div class="col-lg-9">
+      <!-- Ads carousel -->
+      <div class="ads-container">
+        <div id="adsCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner" id="adsInner"></div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#adsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#adsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Announcement -->
+      <div class="announcement">
+        <marquee id="announcementText">Welcome to Lawgate Mini Market — Free delivery on all weekend orders!</marquee>
+      </div>
+
+      <!-- Products grid -->
+      <div class="products-section">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="row g-4" id="productsGrid"></div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-3">
+      <!-- Cart summary -->
+      <div class="sidebar-card">
+        <h5 class="sidebar-title">
+          <i class="fas fa-shopping-cart"></i> Cart Summary
+        </h5>
+        <div id="cartSummary" class="cart-summary">No items in cart</div>
+        <div class="d-grid">
+          <button id="goToCart" class="btn btn-primary">View Cart / Checkout</button>
+        </div>
+      </div>
+
+      <!-- Quick links / Account -->
+      <div class="sidebar-card">
+        <h6 class="sidebar-title">
+          <i class="fas fa-user"></i> Account
+        </h6>
+        <ul class="account-links">
+          <li><a href="#" id="accountLink"><i class="fas fa-box"></i> My Orders</a></li>
+          <li><a href="#" id="savedAddrLink"><i class="fas fa-map-marker-alt"></i> Saved Addresses</a></li>
+          <li><a href="#" id="editProfileLink"><i class="fas fa-edit"></i> Edit Profile</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="contact-card">
+        <h6 class="d-flex align-items-center gap-2">
+          <i class="fas fa-headset"></i> Contact Us
+        </h6>
+        <div class="social-links">
+          <a href="https://wa.me/919876543210" target="_blank" class="social-link">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </a>
+          <a href="https://instagram.com/lawgateminimarket" target="_blank" class="social-link">
+            <i class="fab fa-instagram"></i> Instagram
+          </a>
+        </div>
+        <div class="message-box">
+          <textarea id="messageToPlatform" class="form-control" rows="3" placeholder="Send us a message..."></textarea>
+          <button id="sendMessageBtn" class="btn btn-send mt-2 w-100">Send Message</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal fade" id="productModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Product Details</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner" id="productSlides"></div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </button>
+            </div>
+            <div class="rating-container mt-3">
+              <div id="productRating" class="product-rating"></div>
+              <div id="productRatingText" class="rating-count"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h4 id="pName"></h4>
+            <p id="pBrand" class="text-muted"></p>
+            <div class="mb-3 position-relative">
+              <span id="offerBadge" class="offer-badge d-none"></span>
+              <h3 id="pPrice" class="text-primary">₹0</h3>
+            </div>
+            <div class="mb-3">
+              <strong>Choose Size:</strong>
+              <div id="sizeOptions" class="mt-2 d-flex flex-wrap gap-2"></div>
+            </div>
+            <div class="mb-3">
+              <strong>Quantity</strong>
+              <div class="input-group w-50 mt-1">
+                <button class="btn btn-outline-secondary" id="qtyMinus">-</button>
+                <input id="qtyInput" class="form-control text-center" value="1" type="number" min="1">
+                <button class="btn btn-outline-secondary" id="qtyPlus">+</button>
+              </div>
+            </div>
+            <div class="mb-3">
+              <strong>Delivery</strong>
+              <div id="deliveryInfo" class="mt-1">
+                <i class="fas fa-shipping-fast me-2"></i>Delivery: 2-4 days. Weekend deliveries available (Sat & Sun).
+              </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+              <button id="addToCartBtn" class="btn btn-success flex-fill">
+                <i class="fas fa-cart-plus me-2"></i>Add to Cart
+              </button>
+              <button id="buyNowBtn" class="btn btn-primary flex-fill">
+                <i class="fas fa-bolt me-2"></i>Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART / CHECKOUT MODAL -->
+<div class="modal fade" id="cartModal" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title d-flex align-items-center gap-2">
+          <i class="fas fa-shopping-cart"></i> Your Cart
+        </h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="cartItems"></div>
+        <hr>
+        <div id="checkoutArea"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH (Login/Register) Modal -->
+<div class="modal fade" id="authModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login / Register</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="authForms">
+          <div id="loginForm">
+            <div class="form-group mb-3">
+              <label class="form-label">Mobile Number</label>
+              <input id="loginMobile" class="form-control" placeholder="e.g. 9876543210">
+            </div>
+            <div class="d-grid">
+              <button id="sendOtpBtn" class="btn btn-primary">Send OTP</button>
+            </div>
+            <div class="mt-3 text-center">
+              <a href="#" id="showRegister" class="text-decoration-none">New user? Register</a>
+            </div>
+          </div>
+          <div id="registerForm" class="d-none">
+            <div class="form-group mb-3">
+              <label class="form-label">First Name</label>
+              <input id="regFirst" class="form-control">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label">Last Name</label>
+              <input id="regLast" class="form-control">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label">Mobile Number</label>
+              <input id="regMobile" class="form-control">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label">Email (optional)</label>
+              <input id="regEmail" class="form-control">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label">Full Address</label>
+              <textarea id="regAddress" class="form-control" rows="2" placeholder="Enter your complete address including city, state, and pincode"></textarea>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label">Gender</label>
+              <select id="regGender" class="form-select">
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="d-grid">
+              <button id="registerBtn" class="btn btn-success">Register & Send OTP</button>
+            </div>
+            <div class="mt-2 text-center">
+              <a href="#" id="showLogin" class="text-decoration-none">Already have account? Login</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="otpForm" class="d-none">
+          <div class="form-group mb-3">
+            <label class="form-label">Enter OTP</label>
+            <input id="otpInput" class="form-control">
+          </div>
+          <div class="d-grid">
+            <button id="verifyOtpBtn" class="btn btn-primary">Verify & Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="modal fade" id="adminAuthModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Admin Login</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="adminAuthForms">
+          <div id="adminLoginForm">
+            <div class="form-group mb-3">
+              <label class="form-label">Mobile Number</label>
+              <input id="adminMobile" class="form-control" placeholder="e.g. 9876543210">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label">Password</label>
+              <input id="adminPassword" type="password" class="form-control" placeholder="Enter password">
+            </div>
+            <div class="d-grid">
+              <button id="adminSendOtpBtn" class="btn btn-primary">Send OTP</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="adminOtpForm" class="d-none">
+          <div class="form-group mb-3">
+            <label class="form-label">Enter OTP</label>
+            <input id="adminOtpInput" class="form-control">
+          </div>
+          <div class="d-grid">
+            <button id="adminVerifyOtpBtn" class="btn btn-primary">Verify & Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNT PAGE (offcanvas) -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="accountPanel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title d-flex align-items-center gap-2">
+      <i class="fas fa-user-circle"></i> Account
+    </h5>
+    <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="accountContent"></div>
+  </div>
+</div>
+
+<button class="admin-login" data-bs-toggle="modal" data-bs-target="#adminAuthModal">
+  <i class="fas fa-lock me-2"></i>Admin Login
+</button>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <p>© Lawgate Mini Market • Punjab, India</p>
+      <p class="small">Your trusted local marketplace for quality products</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// API Base URL
+const API_BASE = 'http://localhost/phpproj/lawgate_mini_market';
+
+// Local storage helpers
+function saveLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function loadLS(k,def){const s=localStorage.getItem(k);return s?JSON.parse(s):def}
+
+// Enhanced API Helper with proper session handling
+async function apiCall(endpoint, method = 'GET', data = null) {
+  try {
+    const options = {
+      method,
+      headers: {},
+      credentials: 'include',
+      mode: 'cors'
+    };
+    
+    if (data) {
+      if (data instanceof FormData) {
+        options.body = data;
+      } else {
+        options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        const formData = new URLSearchParams();
+        for (const key in data) {
+          if (data[key] !== null && data[key] !== undefined) {
+            formData.append(key, data[key]);
+          }
+        }
+        options.body = formData;
+      }
+    }
+    
+    console.log(`Making ${method} request to: ${API_BASE}${endpoint}`);
+    
+    const response = await fetch(`${API_BASE}${endpoint}`, options);
+    
+    console.log(`Response status: ${response.status}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      const result = await response.json();
+      console.log('API Response:', result);
+      
+      if (result.message === 'login_required' || result.message === 'User not logged in') {
+        handleSessionExpired();
+        return { status: 'error', message: 'login_required' };
+      }
+      
+      return result;
+    } else {
+      const text = await response.text();
+      console.log('API Text Response:', text);
+      if (text.includes('login_required') || text.includes('User not logged in')) {
+        handleSessionExpired();
+        return { status: 'error', message: 'login_required' };
+      }
+      return { status: 'success', message: text };
+    }
+    
+  } catch (error) {
+    console.error('API Error:', error);
+    if (error.name === 'TypeError') {
+      return { status: 'error', message: 'Network error - cannot reach server' };
+    }
+    return { status: 'error', message: error.message };
+  }
+}
+
+// Handle session expiration
+function handleSessionExpired() {
+  console.log('Session expired, clearing local storage');
+  localStorage.removeItem('lg_user');
+  updateAuthUI();
+  showToast('Session Expired', 'Please login again', 'warning');
+}
+
+// Theme toggle functionality
+document.getElementById('themeToggle').addEventListener('click', function() {
+  const currentTheme = document.body.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  document.body.setAttribute('data-theme', newTheme);
+  this.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+  saveLS('lg_theme', newTheme);
+});
+
+// Apply saved theme on load
+const savedTheme = loadLS('lg_theme', 'light');
+document.body.setAttribute('data-theme', savedTheme);
+document.getElementById('themeToggle').innerHTML = savedTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
+// --- Load Ads ---
+async function loadAds() {
+  try {
+    const data = await apiCall('/ads/fetch-ads.php');
+    if (data.status === 'success') {
+      renderAds(data.ads || []);
+    } else {
+      throw new Error(data.message || 'Failed to load ads');
+    }
+  } catch (error) {
+    console.error('Failed to load ads:', error);
+    renderAds([
+      { image_path: 'https://via.placeholder.com/900x140?text=Special+Offers+This+Week', link: '#' },
+      { image_path: 'https://via.placeholder.com/900x140?text=Free+Delivery+on+Weekends', link: '#' }
+    ]);
+  }
+}
+
+function renderAds(ads) {
+  const inner = document.getElementById('adsInner');
+  inner.innerHTML = '';
+  
+  if (ads.length === 0) {
+    inner.innerHTML = '<div class="carousel-item active"><img src="https://via.placeholder.com/900x140?text=Welcome+to+Lawgate+Mini+Market" class="d-block w-100" alt="Ad"></div>';
+    return;
+  }
+  
+  ads.forEach((ad, i) => {
+    const imgSrc = ad.image_path || ad;
+    const link = ad.link || '#';
+    inner.innerHTML += `
+      <div class="carousel-item ${i===0?'active':''}">
+        <a href="${link}" target="_blank">
+          <img src="${imgSrc}" class="d-block w-100" alt="Ad" style="height: 160px; object-fit: cover;">
+        </a>
+      </div>
+    `;
+  });
+}
+
+// --- Load Announcements ---
+async function loadAnnouncements() {
+  try {
+    const data = await apiCall('/ads/fetch-announcements.php');
+    const announcementText = document.getElementById('announcementText');
+    if (data.status === 'success' && data.announcements && data.announcements.length > 0) {
+      const messages = data.announcements.map(a => a.message);
+      announcementText.textContent = messages.join(' • ');
+    }
+  } catch (error) {
+    console.error('Failed to load announcements:', error);
+  }
+}
+
+// --- Load Products ---
+// --- Load Products ---
+async function loadProducts() {
+  try {
+    const data = await apiCall('/products/fetch-products.php');
+    
+    if (data.status === 'success') {
+      // Fetch ratings for each product
+      const productsWithRatings = await Promise.all(
+        (data.products || []).map(async (product) => {
+          try {
+            const ratingData = await apiCall(`/products/product-details.php?product_id=${product.product_id || product.id}`);
+            if (ratingData.status === 'success' && ratingData.ratings) {
+              return {
+                ...product,
+                overall_rating: ratingData.ratings.overall || 0,
+                total_reviews: ratingData.ratings.total_reviews || 0
+              };
+            }
+          } catch (error) {
+            console.error(`Failed to fetch ratings for product ${product.product_id}:`, error);
+          }
+          return {
+            ...product,
+            overall_rating: 0,
+            total_reviews: 0
+          };
+        })
+      );
+      
+      renderProducts(productsWithRatings);
+    } else {
+      console.warn('Using demo products due to API failure:', data.message);
+      renderDemoProducts();
+    }
+  } catch (error) {
+    console.error('Failed to load products:', error);
+    renderDemoProducts();
+  }
+}
+
+function renderDemoProducts() {
+  const demoProducts = [
+    {
+      product_id: 1,
+      name: "Men's Sports T-Shirt",
+      brand: "Nike",
+      price: 1299,
+      offer_percent: 15,
+      thumb: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop",
+      overall_rating: 4.5,
+      total_reviews: 42
+    },
+    {
+      product_id: 2, 
+      name: "Women's Running Shoes",
+      brand: "Adidas",
+      price: 3599,
+      thumb: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop",
+      overall_rating: 4.2,
+      total_reviews: 28
+    },
+    {
+      product_id: 3,
+      name: "Casual Shirt",
+      brand: "Puma",
+      price: 1599,
+      offer_percent: 10,
+      thumb: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&h=500&fit=crop",
+      overall_rating: 4.7,
+      total_reviews: 36
+    },
+    {
+      product_id: 4,
+      name: "Wireless Headphones",
+      brand: "Sony",
+      price: 2999,
+      offer_percent: 20,
+      thumb: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop",
+      overall_rating: 4.8,
+      total_reviews: 51
+    },
+    {
+      product_id: 5,
+      name: "Smart Watch",
+      brand: "Samsung",
+      price: 4999,
+      thumb: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop",
+      overall_rating: 4.3,
+      total_reviews: 39
+    },
+    {
+      product_id: 6,
+      name: "Backpack",
+      brand: "Skybags",
+      price: 1999,
+      offer_percent: 5,
+      thumb: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=500&fit=crop",
+      overall_rating: 4.6,
+      total_reviews: 24
+    }
+  ];
+  renderProducts(demoProducts);
+}
+
+// Enhanced Products grid with quick actions
+function renderProducts(list = []) {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = '';
+  
+  if (list.length === 0) {
+    grid.innerHTML = `
+      <div class="col-12">
+        <div class="empty-state">
+          <i class="fas fa-search"></i>
+          <h4>No products found</h4>
+          <p>Try adjusting your search terms</p>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  
+  list.forEach(p => {
+    const discounted = p.offer_percent ? Math.round(p.price * (1 - p.offer_percent / 100)) : p.price;
+    const imageUrl = p.thumb || p.image || 'https://via.placeholder.com/300x300?text=No+Image';
+    const overallRating = p.overall_rating || 0;
+    const totalReviews = p.total_reviews || 0;
+    
+    // Generate star rating HTML
+    let starsHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      if (i <= Math.floor(overallRating)) {
+        starsHTML += '<i class="fas fa-star"></i>';
+      } else if (i === Math.ceil(overallRating) && overallRating % 1 >= 0.5) {
+        starsHTML += '<i class="fas fa-star-half-alt"></i>';
+      } else {
+        starsHTML += '<i class="far fa-star"></i>';
+      }
+    }
+    
+    grid.innerHTML += `
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="product-card product-card-enhanced" onclick="openProduct(${p.product_id || p.id})">
+          ${p.offer_percent ? `<div class="offer-badge">${p.offer_percent}% OFF</div>` : ''}
+          <div class="product-image">
+            <img src="${imageUrl}" alt="${p.name}">
+            <div class="product-overlay">
+              <div class="overlay-actions">
+                <button class="overlay-btn" onclick="event.stopPropagation(); quickAddToCart(${p.product_id || p.id})">
+                  <i class="fas fa-cart-plus"></i>
+                </button>
+                <button class="overlay-btn" onclick="event.stopPropagation(); openProduct(${p.product_id || p.id})">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="product-info">
+            <h6 class="product-title">${p.name}</h6>
+            <div class="product-brand">${p.brand || ''}</div>
+            <div class="product-price">
+              <span class="current-price">₹${discounted.toLocaleString('en-IN')}</span>
+              ${p.offer_percent ? `<span class="original-price">₹${p.price.toLocaleString('en-IN')}</span>` : ''}
+            </div>
+            <div class="product-rating">
+              <div class="stars">
+                ${starsHTML}
+              </div>
+              <span class="rating-count">(${totalReviews})</span>
+            </div>
+            <div class="product-actions">
+              <button class="btn-add-cart" onclick="event.stopPropagation(); quickAddToCart(${p.product_id || p.id})">
+                <i class="fas fa-cart-plus"></i> Add to Cart
+              </button>
+              <button class="btn-buy-now" onclick="event.stopPropagation(); quickBuyNow(${p.product_id || p.id})">
+                <i class="fas fa-bolt"></i> Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Quick add to cart function
+async function quickAddToCart(productId) {
+  const user = loadLS('lg_user', null);
+  if (!user) {
+    showToast('Login Required', 'Please login to add items to cart', 'warning');
+    new bootstrap.Modal(document.getElementById('authModal')).show();
+    return false;
+  }
+
+  try {
+    const result = await apiCall('/cart/add-to-cart.php', 'POST', {
+      product_id: productId,
+      quantity: 1,
+      size: 'One Size'
+    });
+    
+    if (result.status === 'success' || result.message === 'added_to_cart' || result.message.includes('success')) {
+      showToast('Success', 'Added to cart successfully!', 'success');
+      await renderCartItems();
+      return true;
+    } else if (result.message === 'login_required') {
+      handleSessionExpired();
+      return false;
+    } else {
+      throw new Error(result.message || 'Failed to add to cart');
+    }
+  } catch (error) {
+    console.error('Failed to add to cart:', error);
+    showToast('Error', 'Failed to add item to cart: ' + error.message, 'error');
+    return false;
+  }
+}
+
+// Quick buy now function
+async function quickBuyNow(productId) {
+  const success = await quickAddToCart(productId);
+  if (success) {
+    setTimeout(() => openCart(), 1000);
+  }
+}
+
+// --- Open product modal ---
+let currentProduct = null;
+async function openProduct(id) {
+  try {
+    const data = await apiCall(`/products/product-details.php?product_id=${id}`);
+    
+    if (data.status === 'success' && data.product) {
+      currentProduct = data.product;
+      
+      document.getElementById('pName').textContent = currentProduct.name;
+      document.getElementById('pBrand').textContent = currentProduct.brand || '';
+      
+      const discounted = currentProduct.offer_percent ? 
+        Math.round(currentProduct.price * (1 - currentProduct.offer_percent / 100)) : 
+        currentProduct.price;
+      document.getElementById('pPrice').textContent = `₹${discounted.toLocaleString('en-IN')}`;
+      
+      const offerBadge = document.getElementById('offerBadge');
+      if (currentProduct.offer_percent) {
+        offerBadge.classList.remove('d-none');
+        offerBadge.textContent = `${currentProduct.offer_percent}% OFF`;
+      } else {
+        offerBadge.classList.add('d-none');
+      }
+
+      // Product Images
+      const slides = document.getElementById('productSlides');
+      slides.innerHTML = '';
+      const images = data.images || [];
+      if (images.length === 0) {
+        images.push('https://via.placeholder.com/400x400?text=No+Image');
+      }
+      
+      images.forEach((img, i) => {
+        slides.innerHTML += `
+          <div class="carousel-item ${i === 0 ? 'active' : ''}">
+            <img src="${img}" class="d-block w-100" alt="Product Image" style="height: 300px; object-fit: cover;">
+          </div>
+        `;
+      });
+
+      // Size Options
+      const sizeOptions = document.getElementById('sizeOptions');
+      sizeOptions.innerHTML = '';
+      const sizes = data.sizes || [];
+      if (sizes.length > 0) {
+        sizes.forEach((size, i) => {
+          sizeOptions.innerHTML += `
+            <button class="btn btn-outline-secondary size-btn ${i === 0 ? 'active btn-primary' : ''}" data-size="${size}">
+              ${size}
+            </button>
+          `;
+        });
+      } else {
+        sizeOptions.innerHTML = '<span class="text-muted">One Size</span>';
+      }
+
+      // Ratings
+      const ratingContainer = document.getElementById('productRating');
+      const ratingText = document.getElementById('productRatingText');
+      const ratings = data.ratings || { overall: currentProduct.overall_rating || 0, total_reviews: currentProduct.total_reviews || 0 };
+      
+      ratingContainer.innerHTML = '';
+      const overallRating = ratings.overall || 0;
+      let starsHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(overallRating)) {
+          starsHTML += '<i class="fas fa-star star"></i>';
+        } else if (i === Math.ceil(overallRating) && overallRating % 1 >= 0.5) {
+          starsHTML += '<i class="fas fa-star-half-alt star"></i>';
+        } else {
+          starsHTML += '<i class="far fa-star star"></i>';
+        }
+      }
+      ratingContainer.innerHTML = starsHTML;
+      
+      ratingText.textContent = `(${ratings.total_reviews || 0} reviews)`;
+
+      document.getElementById('qtyInput').value = 1;
+      const prodModal = new bootstrap.Modal(document.getElementById('productModal'));
+      prodModal.show();
+      
+    } else {
+      throw new Error(data.message || 'Product not found');
+    }
+  } catch (error) {
+    console.error('Failed to load product details:', error);
+    showToast('Error', 'Failed to load product details', 'error');
+  }
+}
+
+// quantity controls
+document.addEventListener('click', e => {
+  if (e.target && e.target.id === 'qtyMinus') {
+    const inp = document.getElementById('qtyInput');
+    inp.value = Math.max(1, Number(inp.value) - 1);
+  }
+  if (e.target && e.target.id === 'qtyPlus') {
+    const inp = document.getElementById('qtyInput');
+    inp.value = Number(inp.value) + 1;
+  }
+  if (e.target && e.target.classList.contains('size-btn')) {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active', 'btn-primary'));
+    e.target.classList.add('active', 'btn-primary');
+  }
+});
+
+// Cart management
+let cart = [];
+
+// Add to cart function with proper authentication
+async function addToCart(product, qty, size) {
+  const user = loadLS('lg_user', null);
+  if (!user) {
+    showToast('Login Required', 'Please login to add items to cart', 'warning');
+    const productModal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+    if (productModal) productModal.hide();
+    new bootstrap.Modal(document.getElementById('authModal')).show();
+    return false;
+  }
+
+  try {
+    console.log('Adding to cart:', { product_id: product.product_id, quantity: qty, size: size });
+    
+    const result = await apiCall('/cart/add-to-cart.php', 'POST', {
+      product_id: product.product_id || product.id,
+      quantity: qty,
+      size: size || 'One Size'
+    });
+    
+    console.log('Add to cart result:', result);
+    
+    if (result.status === 'success' || result.message === 'added_to_cart' || result.message.includes('success')) {
+      showToast('Success', 'Added to cart successfully!', 'success');
+      await renderCartItems();
+      return true;
+    } else if (result.message === 'login_required') {
+      handleSessionExpired();
+      return false;
+    } else {
+      throw new Error(result.message || 'Failed to add to cart');
+    }
+  } catch (error) {
+    console.error('Failed to add to cart:', error);
+    showToast('Error', 'Failed to add item to cart: ' + error.message, 'error');
+    return false;
+  }
+}
+
+function renderCartSummary() {
+  const el = document.getElementById('cartSummary');
+  const badge = document.getElementById('cartBadge');
+  
+  if (cart.length === 0) {
+    el.innerHTML = 'No items in cart';
+    badge.classList.add('d-none');
+    return;
+  }
+  
+  let total = 0;
+  let totalItems = 0;
+  cart.forEach(i => {
+    total += i.quantity * (i.discounted_price || i.price);
+    totalItems += i.quantity;
+  });
+  el.innerHTML = `${totalItems} items • ₹${total.toLocaleString('en-IN')}`;
+  badge.textContent = totalItems;
+  badge.classList.remove('d-none');
+}
+
+// add to cart button
+document.getElementById('addToCartBtn').addEventListener('click', async () => {
+  const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+  const sizeBtn = document.querySelector('.size-btn.btn-primary');
+  const size = sizeBtn ? sizeBtn.getAttribute('data-size') : 'One Size';
+  
+  const success = await addToCart(currentProduct, qty, size);
+  if (success) {
+    const productModal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+    if (productModal) productModal.hide();
+  }
+});
+
+// buy now
+document.getElementById('buyNowBtn').addEventListener('click', async () => {
+  const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+  const sizeBtn = document.querySelector('.size-btn.btn-primary');
+  const size = sizeBtn ? sizeBtn.getAttribute('data-size') : 'One Size';
+  
+  const success = await addToCart(currentProduct, qty, size);
+  if (success) {
+    const productModal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+    if (productModal) productModal.hide();
+    setTimeout(() => openCart(), 1000);
+  }
+});
+
+// CART modal rendering
+async function openCart() {
+  await renderCartItems();
+  const cm = new bootstrap.Modal(document.getElementById('cartModal'));
+  cm.show();
+}
+
+// Cart items rendering with authentication
+async function renderCartItems() {
+  const user = loadLS('lg_user', null);
+  if (!user) {
+    const container = document.getElementById('cartItems');
+    container.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-shopping-cart"></i>
+        <h4>Please login to view cart</h4>
+        <p>Login to see your cart items</p>
+        <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#authModal">Login</button>
+      </div>
+    `;
+    return;
+  }
+
+  try {
+    const data = await apiCall('/cart/fetch-cart.php');
+    
+    if (data.status === 'success') {
+      cart = data.cart || [];
+      renderCartSummary();
+    } else if (data.message === 'login_required') {
+      handleSessionExpired();
+      return;
+    } else {
+      throw new Error(data.message || 'Failed to fetch cart');
+    }
+  } catch (error) {
+    console.error('Failed to fetch cart:', error);
+    cart = [];
+  }
+  
+  const container = document.getElementById('cartItems');
+  container.innerHTML = '';
+  
+  if (cart.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-shopping-cart"></i>
+        <h4>Your cart is empty</h4>
+        <p>Add some products to get started</p>
+      </div>
+    `;
+    return;
+  }
+  
+  cart.forEach((item) => {
+    const subtotal = (item.discounted_price || item.price) * item.quantity;
+    container.innerHTML += `
+      <div class="d-flex align-items-center gap-3 mb-3 p-3 rounded" style="background-color: var(--bg-color);">
+        <img src="${item.image || 'https://via.placeholder.com/80x80?text=No+Image'}" style="width:80px;height:80px;object-fit:cover;border-radius:6px">
+        <div class="flex-fill">
+          <div><strong>${item.product_name}</strong></div>
+          <div class="small text-muted">Size: ${item.selected_size || 'One Size'}</div>
+          <div class="mt-1">₹${item.discounted_price || item.price} x ${item.quantity} = <strong>₹${subtotal.toLocaleString('en-IN')}</strong></div>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${item.cart_id})">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    `;
+  });
+  
+  // Checkout area
+  const checkoutArea = document.getElementById('checkoutArea');
+  const total = cart.reduce((s, i) => s + ((i.discounted_price || i.price) * i.quantity), 0);
+  checkoutArea.innerHTML = `
+    <div class="d-flex justify-content-between"><div>Items Total:</div><div>₹${total.toLocaleString('en-IN')}</div></div>
+    <div class="d-flex justify-content-between"><div>Transport:</div><div>₹0</div></div>
+    <div class="d-flex justify-content-between"><div>Discount:</div><div>--</div></div>
+    <hr>
+    <div class="d-flex justify-content-between"><strong>Total:</strong><strong>₹${total.toLocaleString('en-IN')}</strong></div>
+    <div class="mt-3 d-grid"><button id="proceedCheckout" class="btn btn-primary">Proceed to Checkout</button></div>
+  `;
+  document.getElementById('proceedCheckout').addEventListener('click', proceedCheckout);
+}
+
+// Remove from cart with authentication
+async function removeFromCart(cartId) {
+  try {
+    const result = await apiCall('/cart/remove-from-cart.php', 'POST', { cart_id: cartId });
+    
+    if (result.status === 'success') {
+      cart = cart.filter(item => item.cart_id !== cartId);
+      await renderCartItems();
+      renderCartSummary();
+      showToast('Success', 'Item removed from cart', 'success');
+    } else if (result.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      throw new Error(result.message || 'Failed to remove item');
+    }
+  } catch (error) {
+    console.error('Failed to remove from cart:', error);
+    showToast('Error', 'Failed to remove item', 'error');
+  }
+}
+
+// Checkout flow
+function proceedCheckout() {
+  if (cart.length === 0) {
+    alert('Your cart is empty');
+    return;
+  }
+  
+  const user = loadLS('lg_user', null);
+  if (!user) {
+    const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
+    if (cartModal) cartModal.hide();
+    new bootstrap.Modal(document.getElementById('authModal')).show();
+    return;
+  }
+  
+  renderCheckoutStep();
+}
+
+// Make the Manage Addresses button work
+function renderCheckoutStep() {
+  const checkoutArea = document.getElementById('checkoutArea');
+  const total = cart.reduce((s, i) => s + ((i.discounted_price || i.price) * i.quantity), 0);
+  
+  checkoutArea.innerHTML = `
+    <h5>1) Address</h5>
+    <div id="addressSelection"></div>
+    <button class="btn btn-sm btn-outline-primary mt-2" onclick="openAddressManagement()">Manage Addresses</button>
+    
+    <h5 class="mt-3">2) Order Summary</h5>
+    <div id="summaryList"></div>
+    
+    <h5 class="mt-3">3) Payment</h5>
+    <select id="paymentMethod" class="form-select mb-2">
+      <option>COD</option>
+      <option>UPI</option>
+      <option>Paytm</option>
+      <option>PhonePE</option>
+    </select>
+    
+    <div class="d-grid"><button id="placeOrderBtn" class="btn btn-success">Place Order</button></div>
+  `;
+  
+  const summaryList = document.getElementById('summaryList');
+  summaryList.innerHTML = '';
+  cart.forEach(item => {
+    const subtotal = (item.discounted_price || item.price) * item.quantity;
+    summaryList.innerHTML += `<div class="d-flex justify-content-between"><div>${item.product_name} x ${item.quantity}</div><div>₹${subtotal.toLocaleString('en-IN')}</div></div>`;
+  });
+  
+  summaryList.innerHTML += `<hr><div class="d-flex justify-content-between"><div>Total</div><div>₹${total.toLocaleString('en-IN')}</div></div>`;
+  
+  loadAddresses();
+  
+  document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
+}
+
+// Function to open address management from cart
+function openAddressManagement() {
+  const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
+  if (cartModal) cartModal.hide();
+  
+  const accountPanel = new bootstrap.Offcanvas(document.getElementById('accountPanel'));
+  accountPanel.show();
+  renderSavedAddresses();
+}
+
+async function loadAddresses() {
+  try {
+    const data = await apiCall('/account/get-addresses.php');
+    const addressSelection = document.getElementById('addressSelection');
+    
+    console.log('Addresses data:', data);
+    
+    if (data.status === 'success' && data.addresses && data.addresses.length > 0) {
+      addressSelection.innerHTML = data.addresses.map(addr => `
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="address" value="${addr.id}" ${addr.is_default ? 'checked' : ''}>
+          <label class="form-check-label">
+            <strong>${addr.full_address}</strong><br>
+            <small class="text-muted">${addr.city}, ${addr.state} - ${addr.pincode}</small>
+            ${addr.landmark ? `<br><small class="text-muted">Landmark: ${addr.landmark}</small>` : ''}
+            ${addr.is_default ? '<br><small class="text-success">✓ Default Address</small>' : ''}
+          </label>
+        </div>
+      `).join('');
+      
+      console.log(`Loaded ${data.addresses.length} addresses`);
+    } else if (data.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      addressSelection.innerHTML = `
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          No addresses found. Please add an address first.
+        </div>
+        <button class="btn btn-primary mt-2" onclick="openAddressManagement()">
+          <i class="fas fa-plus me-2"></i>Add Address
+        </button>
+      `;
+    }
+  } catch (error) {
+    console.error('Failed to load addresses:', error);
+    addressSelection.innerHTML = `
+      <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        Failed to load addresses. Please try again.
+      </div>
+    `;
+  }
+}
+
+// Enhanced place order function with better error handling
+async function placeOrder() {
+  const addressRadios = document.getElementsByName('address');
+  let selectedAddressId = null;
+  
+  for (const radio of addressRadios) {
+    if (radio.checked) {
+      selectedAddressId = radio.value;
+      break;
+    }
+  }
+  
+  if (!selectedAddressId) {
+    alert('Please select a delivery address');
+    return;
+  }
+  
+  const paymentMethod = document.getElementById('paymentMethod').value;
+  
+  // Show loading state
+  const placeOrderBtn = document.getElementById('placeOrderBtn');
+  const originalText = placeOrderBtn.innerHTML;
+  placeOrderBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Placing Order...';
+  placeOrderBtn.disabled = true;
+  
+  try {
+    console.log('Placing order with:', { 
+      payment_method: paymentMethod, 
+      address_id: selectedAddressId 
+    });
+    
+    // First, verify the address exists
+    const addressCheck = await apiCall('/account/get-addresses.php');
+    if (addressCheck.status === 'success' && addressCheck.addresses) {
+      const addressExists = addressCheck.addresses.some(addr => addr.id == selectedAddressId);
+      if (!addressExists) {
+        throw new Error('Selected address not found. Please refresh and try again.');
+      }
+    }
+    
+    const result = await apiCall('/orders/place-order.php', 'POST', {
+      payment_method: paymentMethod,
+      address_id: selectedAddressId
+    });
+    
+    console.log('Order placement result:', result);
+    
+    if (result.status === 'success') {
+      // Clear cart
+      cart = [];
+      renderCartSummary();
+      
+      showOrderSuccessAnimation(result.orders[0].order_number, result.orders[0].otp);
+      const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
+      if (cartModal) cartModal.hide();
+    } else if (result.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      // Show specific error message from server
+      const errorMsg = result.message || 'Unknown error occurred';
+      alert('Failed to place order: ' + errorMsg);
+    }
+  } catch (error) {
+    console.error('Order placement failed:', error);
+    alert('Failed to place order: ' + error.message);
+  } finally {
+    // Restore button state
+    placeOrderBtn.innerHTML = originalText;
+    placeOrderBtn.disabled = false;
+  }
+}
+
+// Enhanced order success animation
+function showOrderSuccessAnimation(orderId, deliveryOtp) {
+  const modal = document.createElement('div');
+  modal.className = 'modal fade show d-block';
+  modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+  modal.innerHTML = `
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body order-success-animation">
+          <div class="truck-animation">
+            <i class="fas fa-truck"></i>
+          </div>
+          <h3 class="text-success">Order Placed Successfully!</h3>
+          <p>Your order ID: <strong>${orderId}</strong></p>
+          <div class="delivery-otp">
+            Delivery OTP: <strong>${deliveryOtp}</strong>
+          </div>
+          <p class="mt-3">Please provide this OTP to the delivery agent</p>
+          <button class="btn btn-primary mt-3" onclick="this.closest('.modal').remove(); createConfetti();">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  
+  setTimeout(() => {
+    const otpElement = modal.querySelector('.delivery-otp');
+    if (otpElement) {
+      otpElement.classList.add('pulse');
+    }
+  }, 500);
+}
+
+// Create confetti animation
+function createConfetti() {
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.backgroundColor = getRandomColor();
+      document.body.appendChild(confetti);
+      
+      setTimeout(() => {
+        if (confetti.parentNode) {
+          confetti.parentNode.removeChild(confetti);
+        }
+      }, 3000);
+    }, i * 100);
+  }
+}
+
+function getRandomColor() {
+  const colors = ['#0d6efd', '#198754', '#dc3545', '#ffc107', '#0dcaf0', '#ff6f61'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+// Toast notification
+function showToast(title, message, type = 'info') {
+  document.querySelectorAll('.toast-container').forEach(el => el.remove());
+  
+  const toastContainer = document.createElement('div');
+  toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+  toastContainer.style.zIndex = '11';
+  
+  const bgColor = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : type === 'warning' ? 'bg-warning' : 'bg-info';
+  
+  toastContainer.innerHTML = `
+    <div class="toast show" role="alert">
+      <div class="toast-header ${bgColor} text-white">
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'} me-2"></i>
+        <strong class="me-auto">${title}</strong>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body">
+        ${message}
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(toastContainer);
+  setTimeout(() => {
+    if (toastContainer.parentNode) {
+      toastContainer.parentNode.removeChild(toastContainer);
+    }
+  }, 4000);
+}
+
+// --- Authentication ---
+document.getElementById('showRegister').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('loginForm').classList.add('d-none');
+  document.getElementById('registerForm').classList.remove('d-none');
+});
+
+document.getElementById('showLogin').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('registerForm').classList.add('d-none');
+  document.getElementById('loginForm').classList.remove('d-none');
+});
+
+document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+  const mobile = document.getElementById('loginMobile').value.trim();
+  if (!mobile || !/^\d{10}$/.test(mobile)) {
+    alert('Please enter a valid 10-digit mobile number');
+    return;
+  }
+  
+  try {
+    const result = await apiCall('/auth/login.php', 'POST', { mobile_no: mobile });
+    if (result.status === 'success') {
+      document.getElementById('authForms').classList.add('d-none');
+      document.getElementById('otpForm').classList.remove('d-none');
+      showToast('OTP Sent', 'OTP has been sent to your mobile', 'success');
+    } else {
+      alert('Failed to send OTP: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Login OTP request failed:', error);
+    alert('Failed to send OTP. Please try again.');
+  }
+});
+
+// FIXED: Enhanced registration to save address properly
+document.getElementById('registerBtn').addEventListener('click', async () => {
+  const user = {
+    first_name: document.getElementById('regFirst').value.trim(),
+    last_name: document.getElementById('regLast').value.trim(),
+    mobile_no: document.getElementById('regMobile').value.trim(),
+    email: document.getElementById('regEmail').value.trim() || null,
+    address: document.getElementById('regAddress').value.trim(),
+    gender: document.getElementById('regGender').value.toLowerCase()
+  };
+  
+  if (!user.first_name || !user.last_name || !user.mobile_no || !user.address) {
+    alert('Please fill all required fields');
+    return;
+  }
+  
+  if (!/^\d{10}$/.test(user.mobile_no)) {
+    alert('Please enter a valid 10-digit mobile number');
+    return;
+  }
+  
+  try {
+    const result = await apiCall('/auth/register.php', 'POST', user);
+    if (result.status === 'success') {
+      document.getElementById('authForms').classList.add('d-none');
+      document.getElementById('otpForm').classList.remove('d-none');
+      showToast('Registration Successful', 'OTP sent to your mobile', 'success');
+    } else {
+      alert('Registration failed: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Registration failed:', error);
+    alert('Registration failed. Please try again.');
+  }
+});
+
+// OTP verification with proper session handling
+document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
+  const otp = document.getElementById('otpInput').value.trim();
+  const mobile = document.getElementById('loginMobile').value.trim() || document.getElementById('regMobile').value.trim();
+  
+  if (!otp || !/^\d{6}$/.test(otp)) {
+    alert('Please enter a valid 6-digit OTP');
+    return;
+  }
+  
+  try {
+    const result = await apiCall('/auth/verify-otp.php', 'POST', {
+      mobile_no: mobile,
+      otp_code: otp
+    });
+    
+    if (result.status === 'success') {
+      const fullName = result.name || 'User';
+      const nameParts = fullName.split(' ');
+      const firstName = nameParts[0] || 'User';
+      const lastName = nameParts.slice(1).join(' ') || '';
+      
+      // Store user session data
+      const userData = {
+        user_id: result.user_id,
+        first_name: firstName,
+        last_name: lastName,
+        name: fullName,
+        mobile_no: mobile,
+        role: result.role || 'customer'
+      };
+      saveLS('lg_user', userData);
+      
+      document.getElementById('authModal').querySelector('.btn-close').click();
+      updateAuthUI();
+      
+      showToast('Login Successful', `Welcome back, ${firstName}!`, 'success');
+      
+      // Reset forms
+      document.getElementById('authForms').classList.remove('d-none');
+      document.getElementById('otpForm').classList.add('d-none');
+      document.getElementById('loginForm').classList.remove('d-none');
+      document.getElementById('registerForm').classList.add('d-none');
+      document.getElementById('loginMobile').value = '';
+      document.getElementById('regMobile').value = '';
+      document.getElementById('otpInput').value = '';
+      
+    } else {
+      alert('OTP verification failed: ' + result.message);
+    }
+  } catch (error) {
+    console.error('OTP verification failed:', error);
+    alert('OTP verification failed. Please try again.');
+  }
+});
+
+// Logout functionality
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  if (confirm('Are you sure you want to logout?')) {
+    // Clear session on server side by making a logout request if you have one
+    // await apiCall('/auth/logout.php', 'POST');
+    
+    localStorage.removeItem('lg_user');
+    cart = [];
+    updateAuthUI();
+    renderCartSummary();
+    showToast('Logged Out', 'You have been logged out successfully', 'info');
+  }
+});
+
+function updateAuthUI() {
+  const user = loadLS('lg_user', null);
+  if (user) {
+    document.getElementById('loginBtn').classList.add('d-none');
+    document.getElementById('profileArea').classList.remove('d-none');
+    const firstName = user.first_name || user.name || '';
+    const lastName = user.last_name || '';
+    const initials = (firstName ? firstName[0] : '') + (lastName ? lastName[0] : '') || 'U';
+    document.getElementById('profileBadge').textContent = initials;
+    document.getElementById('profileBadge').onclick = () => {
+      const ac = new bootstrap.Offcanvas(document.getElementById('accountPanel'));
+      ac.show();
+      renderAccount();
+    };
+  } else {
+    document.getElementById('loginBtn').classList.remove('d-none');
+    document.getElementById('profileArea').classList.add('d-none');
+  }
+}
+
+// Account rendering
+async function renderAccount() {
+  const user = loadLS('lg_user', null);
+  const container = document.getElementById('accountContent');
+  
+  if (!user) {
+    container.innerHTML = '<div class="text-center p-4"><p>Please login to view account details.</p><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#authModal">Login</button></div>';
+    return;
+  }
+  
+  try {
+    const ordersData = await apiCall('/account/get-orders.php');
+    const orders = ordersData.orders || [];
+    
+    const displayName = user.name || `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User';
+    
+    container.innerHTML = `
+      <div class="mb-4">
+        <strong>${displayName}</strong>
+        <div class="small text-muted">${user.mobile_no}</div>
+        <hr>
+      </div>
+      <h6>My Orders</h6>
+    `;
+    
+    if (orders.length === 0) {
+      container.innerHTML += '<div class="empty-state"><i class="fas fa-box-open"></i><p>No orders yet</p></div>';
+    } else {
+      orders.forEach(order => {
+        container.innerHTML += `
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div><strong>Order #${order.order_number}</strong></div>
+                <div class="small">${new Date(order.created_at).toLocaleDateString()}</div>
+              </div>
+              <div class="mt-2">${order.product_name} x ${order.quantity}</div>
+              <div class="mt-1">Status: <span class="badge ${getStatusBadgeClass(order.status)}">${order.status}</span></div>
+              <div class="mt-1">Total: ₹${order.total_price}</div>
+              ${order.status === 'Placed' && order.delivery_otp ? 
+                `<div class="delivery-otp mt-2">Delivery OTP: ${order.delivery_otp}</div>` : ''}
+              <div class="mt-2 d-flex gap-2">
+                ${order.status === 'Placed' ? 
+                  `<button class="btn btn-sm btn-outline-danger" onclick="cancelOrder(${order.id})">Cancel Order</button>` : ''}
+                ${order.status === 'Delivered' ? 
+                  `<button class="btn btn-sm btn-outline-primary" onclick="rateOrder(${order.id})">Rate & Review</button>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+    
+    container.innerHTML += `
+      <hr>
+      <div class="d-grid gap-2">
+        <button class="btn btn-secondary" onclick="openEditProfile()">Edit Profile</button>
+        <button class="btn btn-outline-primary" onclick="renderSavedAddresses()">Manage Addresses</button>
+      </div>
+    `;
+  } catch (error) {
+    console.error('Failed to load orders:', error);
+    container.innerHTML += '<div class="text-danger">Failed to load orders</div>';
+  }
+}
+
+function getStatusBadgeClass(status) {
+  const classes = {
+    'Placed': 'bg-primary',
+    'Packaging': 'bg-warning',
+    'Transported': 'bg-info',
+    'Delivered': 'bg-success',
+    'Cancelled': 'bg-danger',
+    'Returned': 'bg-secondary'
+  };
+  return classes[status] || 'bg-secondary';
+}
+
+async function cancelOrder(orderId) {
+  if (!confirm('Are you sure you want to cancel this order?')) return;
+  
+  try {
+    const result = await apiCall('/orders/cancel-order.php', 'POST', { order_id: orderId });
+    if (result.status === 'success') {
+      showToast('Order Cancelled', 'Your order has been cancelled successfully', 'success');
+      renderAccount();
+    } else if (result.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      alert('Failed to cancel order: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Failed to cancel order:', error);
+    alert('Failed to cancel order');
+  }
+}
+
+function rateOrder(orderId) {
+  const container = document.getElementById('accountContent');
+  container.innerHTML = `
+    <h6>Rate Your Order</h6>
+    <div class="form-group">
+      <label class="form-label">Packaging Rating (1-5)</label>
+      <select id="packagingRating" class="form-select">
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Good</option>
+        <option value="3">3 - Average</option>
+        <option value="2">2 - Poor</option>
+        <option value="1">1 - Very Poor</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Delivery Rating (1-5)</label>
+      <select id="deliveryRating" class="form-select">
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Good</option>
+        <option value="3">3 - Average</option>
+        <option value="2">2 - Poor</option>
+        <option value="1">1 - Very Poor</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Product Quality Rating (1-5)</label>
+      <select id="qualityRating" class="form-select">
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Good</option>
+        <option value="3">3 - Average</option>
+        <option value="2">2 - Poor</option>
+        <option value="1">1 - Very Poor</option>
+      </select>
+    </div>
+    <div class="d-grid gap-2 mt-3">
+      <button class="btn btn-primary" onclick="submitRating(${orderId})">Submit Rating</button>
+      <button class="btn btn-outline-secondary" onclick="renderAccount()">Cancel</button>
+    </div>
+  `;
+}
+
+async function submitRating(orderId) {
+  const packaging = parseInt(document.getElementById('packagingRating').value);
+  const delivery = parseInt(document.getElementById('deliveryRating').value);
+  const quality = parseInt(document.getElementById('qualityRating').value);
+  
+  try {
+    const result = await apiCall('/orders/rate-order.php', 'POST', {
+      order_id: orderId,
+      packaging_rating: packaging,
+      delivery_rating: delivery,
+      quality_rating: quality
+    });
+    
+    if (result.status === 'success') {
+      showToast('Thank You!', 'Your rating has been submitted', 'success');
+      renderAccount();
+    } else if (result.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      alert('Failed to submit rating: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Failed to submit rating:', error);
+    alert('Failed to submit rating');
+  }
+}
+
+// Profile editing with proper authentication
+async function openEditProfile() {
+  const user = loadLS('lg_user');
+  const container = document.getElementById('accountContent');
+  
+  try {
+    const profileData = await apiCall('/account/get-profile.php');
+    const profile = profileData.user || user;
+    
+    container.innerHTML = `
+      <h6>Edit Profile</h6>
+      <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input id="epFirst" class="form-control" value="${profile.first_name || ''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input id="epLast" class="form-control" value="${profile.last_name || ''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mobile</label>
+        <input id="epMobile" class="form-control" value="${profile.mobile_no || ''}" disabled>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input id="epEmail" class="form-control" value="${profile.email || ''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Address</label>
+        <textarea id="epAddress" class="form-control" rows="2">${profile.address || ''}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Gender</label>
+        <select id="epGender" class="form-select">
+          <option value="male" ${profile.gender === 'male' ? 'selected' : ''}>Male</option>
+          <option value="female" ${profile.gender === 'female' ? 'selected' : ''}>Female</option>
+          <option value="other" ${profile.gender === 'other' ? 'selected' : ''}>Other</option>
+        </select>
+      </div>
+      <div class="mt-3 d-grid gap-2">
+        <button class="btn btn-primary" onclick="saveProfile()">Save Profile</button>
+        <button class="btn btn-outline-secondary" onclick="renderAccount()">Back to Account</button>
+      </div>
+    `;
+  } catch (error) {
+    console.error('Failed to load profile:', error);
+    container.innerHTML = '<div class="text-danger">Failed to load profile</div>';
+  }
+}
+
+// Save profile with proper field names and JSON format
+async function saveProfile() {
+  const updated = {
+    first_name: document.getElementById('epFirst').value.trim(),
+    last_name: document.getElementById('epLast').value.trim(),
+    gender: document.getElementById('epGender').value,
+    address: document.getElementById('epAddress') ? document.getElementById('epAddress').value.trim() : ''
+  };
+  
+  if (!updated.first_name || !updated.last_name) {
+    alert('First name and last name are required');
+    return;
+  }
+  
+  try {
+    // Use JSON format for the request
+    const result = await fetch(`${API_BASE}/account/update-profile.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(updated)
+    });
+    
+    const response = await result.json();
+    
+    if (response.status === 'success') {
+      const user = loadLS('lg_user');
+      saveLS('lg_user', { ...user, ...updated });
+      showToast('Profile Updated', 'Your profile has been updated successfully', 'success');
+      renderAccount();
+      updateAuthUI();
+    } else if (response.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      alert('Failed to update profile: ' + response.message);
+    }
+  } catch (error) {
+    console.error('Failed to update profile:', error);
+    alert('Failed to update profile');
+  }
+}
+
+// Address management
+async function renderSavedAddresses() {
+  const container = document.getElementById('accountContent');
+  container.innerHTML = '<h6>Saved Addresses</h6><div id="addressesList"></div>';
+  
+  try {
+    const data = await apiCall('/account/get-addresses.php');
+    const addressesList = document.getElementById('addressesList');
+    
+    if (data.status === 'success' && data.addresses && data.addresses.length > 0) {
+      addressesList.innerHTML = data.addresses.map(addr => `
+        <div class="card mb-2">
+          <div class="card-body">
+            <div>${addr.full_address}</div>
+            <div>${addr.city}, ${addr.state} - ${addr.pincode}</div>
+            ${addr.landmark ? `<div class="text-muted">Landmark: ${addr.landmark}</div>` : ''}
+            ${addr.is_default ? '<div class="text-success"><small>Default Address</small></div>' : ''}
+            <div class="mt-2">
+              <button class="btn btn-sm btn-outline-primary" onclick="editAddress(${addr.id})">Edit</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteAddress(${addr.id})">Delete</button>
+              ${!addr.is_default ? `<button class="btn btn-sm btn-outline-success" onclick="setDefaultAddress(${addr.id})">Set Default</button>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    } else if (data.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      addressesList.innerHTML = '<div class="empty-state"><i class="fas fa-map-marker-alt"></i><p>No addresses saved</p></div>';
+    }
+    
+    addressesList.innerHTML += `
+      <div class="d-grid mt-3">
+        <button class="btn btn-primary" onclick="showAddAddressForm()">Add New Address</button>
+        <button class="btn btn-outline-secondary mt-2" onclick="renderAccount()">Back to Account</button>
+      </div>
+    `;
+  } catch (error) {
+    console.error('Failed to load addresses:', error);
+    container.innerHTML = '<div class="text-danger">Failed to load addresses</div>';
+  }
+}
+
+function showAddAddressForm() {
+  const container = document.getElementById('accountContent');
+  container.innerHTML = `
+    <h6>Add New Address</h6>
+    <div class="form-group">
+      <label class="form-label">Full Address *</label>
+      <textarea id="newFullAddress" class="form-control" rows="3" placeholder="House no, Street, Area"></textarea>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-label">City *</label>
+          <input id="newCity" class="form-control" placeholder="e.g. Ludhiana">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-label">State *</label>
+          <input id="newState" class="form-control" placeholder="e.g. Punjab">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-label">Pincode *</label>
+          <input id="newPincode" class="form-control" placeholder="e.g. 141001">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-label">Landmark (optional)</label>
+          <input id="newLandmark" class="form-control" placeholder="e.g. Near Main Market">
+        </div>
+      </div>
+    </div>
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" id="newIsDefault">
+      <label class="form-check-label">Set as default address</label>
+    </div>
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary" onclick="saveNewAddress()">Save Address</button>
+      <button class="btn btn-outline-secondary" onclick="renderSavedAddresses()">Cancel</button>
+    </div>
+  `;
+}
+
+// Save new address with proper field names and JSON format
+async function saveNewAddress() {
+  const address = {
+    full_address: document.getElementById('newFullAddress').value.trim(),
+    city: document.getElementById('newCity').value.trim(),
+    state: document.getElementById('newState').value.trim(),
+    pincode: document.getElementById('newPincode').value.trim(),
+    landmark: document.getElementById('newLandmark').value.trim(),
+    is_default: document.getElementById('newIsDefault').checked ? 1 : 0
+  };
+  
+  // Validate required fields
+  if (!address.full_address || !address.city || !address.state || !address.pincode) {
+    alert('Please fill all required fields (Full Address, City, State, and Pincode)');
+    return;
+  }
+  
+  // More flexible pincode validation - allow any 6 digits
+  if (!/^\d{6}$/.test(address.pincode)) {
+    alert('Please enter a valid 6-digit pincode (numbers only)');
+    return;
+  }
+  
+  console.log('Sending address data:', address);
+  
+  try {
+    // Use JSON format for the request
+    const result = await fetch(`${API_BASE}/account/add-address.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(address)
+    });
+    
+    const response = await result.json();
+    console.log('Address save result:', response);
+    
+    if (response.status === 'success') {
+      showToast('Address Saved', 'New address added successfully', 'success');
+      renderSavedAddresses();
+    } else if (response.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      alert('Failed to save address: ' + response.message);
+    }
+  } catch (error) {
+    console.error('Failed to save address:', error);
+    alert('Failed to save address: ' + error.message);
+  }
+}
+
+// Update address function
+async function editAddress(addressId) {
+  const container = document.getElementById('accountContent');
+  container.innerHTML = `
+    <h6>Edit Address</h6>
+    <div class="form-group">
+      <label class="form-label">Full Address *</label>
+      <textarea id="editFullAddress" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-label">City *</label>
+          <input id="editCity" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-label">State *</label>
+          <input id="editState" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-label">Pincode *</label>
+          <input id="editPincode" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-label">Landmark (optional)</label>
+          <input id="editLandmark" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" id="editIsDefault">
+      <label class="form-check-label">Set as default address</label>
+    </div>
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary" onclick="updateAddress(${addressId})">Update Address</button>
+      <button class="btn btn-outline-secondary" onclick="renderSavedAddresses()">Cancel</button>
+    </div>
+  `;
+  
+  // Load existing address data
+  try {
+    const data = await apiCall('/account/get-addresses.php');
+    if (data.status === 'success' && data.addresses) {
+      const address = data.addresses.find(addr => addr.id == addressId);
+      if (address) {
+        document.getElementById('editFullAddress').value = address.full_address || '';
+        document.getElementById('editCity').value = address.city || '';
+        document.getElementById('editState').value = address.state || '';
+        document.getElementById('editPincode').value = address.pincode || '';
+        document.getElementById('editLandmark').value = address.landmark || '';
+        document.getElementById('editIsDefault').checked = address.is_default == 1;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to load address data:', error);
+  }
+}
+
+// Update address function with JSON format
+async function updateAddress(addressId) {
+  const address = {
+    id: addressId,
+    full_address: document.getElementById('editFullAddress').value.trim(),
+    city: document.getElementById('editCity').value.trim(),
+    state: document.getElementById('editState').value.trim(),
+    pincode: document.getElementById('editPincode').value.trim(),
+    landmark: document.getElementById('editLandmark').value.trim(),
+    is_default: document.getElementById('editIsDefault').checked ? 1 : 0
+  };
+  
+  // Validate required fields
+  if (!address.full_address || !address.city || !address.state || !address.pincode) {
+    alert('Please fill all required fields (Full Address, City, State, and Pincode)');
+    return;
+  }
+  
+  // More flexible pincode validation - allow any 6 digits
+  if (!/^\d{6}$/.test(address.pincode)) {
+    alert('Please enter a valid 6-digit pincode (numbers only)');
+    return;
+  }
+  
+  console.log('Updating address:', address);
+  
+  try {
+    // Use JSON format for the request
+    const result = await fetch(`${API_BASE}/account/update-address.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(address)
+    });
+    
+    const response = await result.json();
+    console.log('Address update result:', response);
+    
+    if (response.status === 'success') {
+      showToast('Address Updated', 'Address updated successfully', 'success');
+      renderSavedAddresses();
+    } else if (response.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      alert('Failed to update address: ' + response.message);
+    }
+  } catch (error) {
+    console.error('Failed to update address:', error);
+    alert('Failed to update address: ' + error.message);
+  }
+}
+
+// FIXED: Set default address with proper parameter names
+// FIXED: Set default address with proper JSON format
+async function setDefaultAddress(addressId) {
+  try {
+    console.log('Setting default address:', addressId);
+    
+    // First, get the existing address data
+    const addressesData = await apiCall('/account/get-addresses.php');
+    
+    if (addressesData.status === 'success' && addressesData.addresses) {
+      const address = addressesData.addresses.find(addr => addr.id == addressId);
+      
+      if (address) {
+        // Update the address with is_default=1, keeping all other fields the same
+        // Use direct fetch with JSON format for update-address.php
+        const updateData = {
+          id: addressId,
+          full_address: address.full_address,
+          city: address.city,
+          state: address.state,
+          pincode: address.pincode,
+          landmark: address.landmark || '',
+          is_default: 1
+        };
+        
+        console.log('Sending update data:', updateData);
+        
+        const response = await fetch(`${API_BASE}/account/update-address.php`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(updateData)
+        });
+        
+        const result = await response.json();
+        console.log('Set default result:', result);
+        
+        if (result.status === 'success') {
+          showToast('Default Address Set', 'Default address updated successfully', 'success');
+          renderSavedAddresses();
+        } else {
+          alert('Failed to set default address: ' + (result.message || 'Unknown error'));
+        }
+      } else {
+        alert('Address not found');
+      }
+    } else {
+      alert('Failed to load address data');
+    }
+  } catch (error) {
+    console.error('Failed to set default address:', error);
+    alert('Failed to set default address: ' + error.message);
+  }
+}
+
+// Delete address with proper parameter name
+async function deleteAddress(addressId) {
+  if (!confirm('Are you sure you want to delete this address?')) return;
+  
+  try {
+    const result = await apiCall('/account/delete-address.php', 'POST', { id: addressId });
+    if (result.status === 'success') {
+      showToast('Address Deleted', 'Address removed successfully', 'success');
+      renderSavedAddresses();
+    } else if (result.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      alert('Failed to delete address: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Failed to delete address:', error);
+    alert('Failed to delete address');
+  }
+}
+
+// Contact functionality
+document.getElementById('sendMessageBtn').addEventListener('click', async function() {
+  const message = document.getElementById('messageToPlatform').value.trim();
+  if (!message) {
+    alert('Please enter a message');
+    return;
+  }
+  
+  try {
+    const result = await apiCall('/notifications/send-message.php', 'POST', { message });
+    if (result.status === 'success') {
+      showToast('Message Sent', 'Your message has been sent successfully!', 'success');
+      document.getElementById('messageToPlatform').value = '';
+    } else if (result.message === 'login_required') {
+      handleSessionExpired();
+    } else {
+      alert('Failed to send message: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Failed to send message:', error);
+    alert('Failed to send message. Please try again.');
+  }
+});
+
+// Search functionality
+document.getElementById('searchBox').addEventListener('keyup', async (e) => {
+  if (e.key === 'Enter') {
+    await performSearch();
+  }
+});
+
+document.getElementById('searchBtn').addEventListener('click', performSearch);
+
+async function performSearch() {
+  const query = document.getElementById('searchBox').value.trim();
+  if (!query) {
+    await loadProducts();
+    return;
+  }
+  
+  try {
+    const data = await apiCall(`/products/search-products.php?q=${encodeURIComponent(query)}`);
+    if (data.status === 'success') {
+      renderProducts(data.products || []);
+    } else {
+      throw new Error(data.message || 'Search failed');
+    }
+  } catch (error) {
+    console.error('Search failed:', error);
+    await loadProducts();
+  }
+}
+
+// Clear search when search box is empty
+document.getElementById('searchBox').addEventListener('input', async (e) => {
+  if (e.target.value.trim() === '') {
+    await loadProducts();
+  }
+});
+
+// Admin Login Functionality
+document.getElementById('adminSendOtpBtn').addEventListener('click', async () => {
+  const mobile = document.getElementById('adminMobile').value.trim();
+  const password = document.getElementById('adminPassword').value.trim();
+  
+  if (!mobile || !password) {
+    alert('Please enter both mobile and password');
+    return;
+  }
+  
+  try {
+    const result = await apiCall('/admin/admin-login.php', 'POST', {
+      mobile_no: mobile,
+      password: password
+    });
+    
+    if (result.status === 'success') {
+      document.getElementById('adminAuthForms').classList.add('d-none');
+      document.getElementById('adminOtpForm').classList.remove('d-none');
+      showToast('OTP Sent', 'Admin OTP sent to your mobile', 'success');
+    } else {
+      alert('Admin login failed: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Admin OTP request failed:', error);
+    alert('Failed to send OTP. Please try again.');
+  }
+});
+
+document.getElementById('adminVerifyOtpBtn').addEventListener('click', async () => {
+  const otp = document.getElementById('adminOtpInput').value.trim();
+  const mobile = document.getElementById('adminMobile').value.trim();
+  
+  if (!otp) {
+    alert('Enter OTP');
+    return;
+  }
+  
+  try {
+    const result = await apiCall('/admin/verify-admin-otp.php', 'POST', {
+      mobile_no: mobile,
+      otp: otp
+    });
+    
+    if (result.status === 'success') {
+      document.getElementById('adminAuthModal').querySelector('.btn-close').click();
+      showToast('Admin Login', 'Welcome to Admin Panel!', 'success');
+      setTimeout(() => {
+        window.location.href = 'admin.html';
+      }, 1000);
+    } else {
+      alert('OTP verification failed: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Admin OTP verification failed:', error);
+    alert('OTP verification failed. Please try again.');
+  }
+});
+
+// Reset admin modal when closed
+document.getElementById('adminAuthModal').addEventListener('hidden.bs.modal', function () {
+  document.getElementById('adminAuthForms').classList.remove('d-none');
+  document.getElementById('adminOtpForm').classList.add('d-none');
+  document.getElementById('adminMobile').value = '';
+  document.getElementById('adminPassword').value = '';
+  document.getElementById('adminOtpInput').value = '';
+});
+
+// Navigation links
+document.getElementById('goToCart').addEventListener('click', () => { openCart(); });
+document.getElementById('cartIcon').addEventListener('click', () => { openCart(); });
+document.getElementById('accountLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  const ac = new bootstrap.Offcanvas(document.getElementById('accountPanel'));
+  ac.show();
+  renderAccount();
+});
+document.getElementById('savedAddrLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  const ac = new bootstrap.Offcanvas(document.getElementById('accountPanel'));
+  ac.show();
+  renderSavedAddresses();
+});
+document.getElementById('editProfileLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  const ac = new bootstrap.Offcanvas(document.getElementById('accountPanel'));
+  ac.show();
+  openEditProfile();
+});
+
+// Enhanced initialization with error handling
+async function initApp() {
+  try {
+    await Promise.all([
+      loadAds().catch(err => console.error('Ads loading failed:', err)),
+      loadAnnouncements().catch(err => console.error('Announcements loading failed:', err)),
+      loadProducts().catch(err => console.error('Products loading failed:', err))
+    ]);
+  } catch (error) {
+    console.error('Initialization failed:', error);
+    showToast('Warning', 'Some features may not load properly', 'warning');
+  } finally {
+    renderCartSummary();
+    updateAuthUI();
+  }
+}
+
+// Start the application
+initApp();
+</script>
+</body>
+</html>
