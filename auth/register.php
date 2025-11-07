@@ -1,5 +1,5 @@
 <?php
-require_once("C:/wamp64/www/phpProj/lawgate_mini_market/admin/cors-headers.php");
+require_once("C:/wamp64/www/lawgate_mini_market/admin/cors-headers.php");
 header("Content-Type: application/json");
 require_once("../config/db_connect.php");
 

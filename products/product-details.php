@@ -1,5 +1,5 @@
 <?php
-require_once("C:/wamp64/www/phpProj/lawgate_mini_market/admin/cors-headers.php");
+require_once("C:/wamp64/www/lawgate_mini_market/admin/cors-headers.php");
 header('Content-Type: application/json');
 require_once("../config/db_connect.php");
 
@@ -37,7 +37,7 @@ $stmt2->bind_param("i", $product_id);
 $stmt2->execute();
 $imgRes = $stmt2->get_result();
 $images = [];
-$base_url = "http://localhost/phpproj/lawgate_mini_market/";
+$base_url = "http://localhost/lawgate_mini_market/";
 while ($img = $imgRes->fetch_assoc()) {
     $images[] = $base_url . $img['image_path'];
 }

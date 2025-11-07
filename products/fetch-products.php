@@ -1,5 +1,5 @@
 <?php
-require_once("C:/wamp64/www/phpProj/lawgate_mini_market/admin/cors-headers.php");
+require_once("C:/wamp64/www/lawgate_mini_market/admin/cors-headers.php");
 header('Content-Type: application/json');
 require_once("../config/db_connect.php");
 
@@ -12,7 +12,7 @@ $sql = "SELECT p.product_id, p.name, p.brand, p.price, p.offer_percent, p.stock,
 $res = $conn->query($sql);
 $items = [];
 
-$base_url = "http://localhost/phpproj/lawgate_mini_market/";
+$base_url = "http://localhost/lawgate_mini_market/";
 
 while ($row = $res->fetch_assoc()) {
     $row['price'] = (float)$row['price'];

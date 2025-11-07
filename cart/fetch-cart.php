@@ -1,5 +1,5 @@
 <?php
-require_once("C:/wamp64/www/phpProj/lawgate_mini_market/admin/cors-headers.php");
+require_once("C:/wamp64/www/lawgate_mini_market/admin/cors-headers.php");
 session_start();
 header('Content-Type: application/json');
 require_once("../config/db_connect.php");
@@ -55,7 +55,7 @@ while ($row = $result->fetch_assoc()) {
     $total_items += (int)$row['quantity'];
 
     // Add full image path
-    $image_path = $row['image'] ? "http://localhost/phpproj/lawgate_mini_market/" . $row['image'] : null;
+    $image_path = $row['image'] ? "http://localhost/lawgate_mini_market/" . $row['image'] : null;
 
     $cart_items[] = [
         'cart_id'        => (int)$row['cart_id'],
